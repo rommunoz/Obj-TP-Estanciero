@@ -14,19 +14,23 @@ describe "El Estanciero, Parte 1" {
 	var entreRios
 	var tiaTiti
 	var munoz
+	var empresa1
 	
 	method initialize(){
+		
 		tiaTiti = new Jugador()
 		munoz 	= new Jugador() 
 		
 		corrientes = new Provincia()
 		entreRios  = new Provincia()
 		
-		coloniaCarolina = new Campo(provincia = corrientes, duenio = tiaTiti, costoDeEstancia = 600)
-		elZorzalito 	= new Campo(provincia = corrientes, duenio = munoz,   costoDeEstancia = 900)
-		lagunaPucuSur 	= new Campo(provincia = corrientes, costoDeEstancia = 1100) //duenio banco
-		coloniaPorvenir = new Campo(provincia = corrientes, costoDeEstancia = 750) //duenio banco
-		losPinos 		= new Campo(provincia = entreRios, duenio = tiaTiti, costoDeEstancia = 500)
+		coloniaCarolina = new Campo(provincia = corrientes, duenio = tiaTiti, costoDeEstancia = 600, valorDeRentaFijo = 200)
+		elZorzalito 	= new Campo(provincia = corrientes, duenio = munoz,   costoDeEstancia = 900, valorDeRentaFijo = 270)
+		lagunaPucuSur 	= new Campo(provincia = corrientes, costoDeEstancia = 1100, valorDeRentaFijo = 150) //duenio banco
+		coloniaPorvenir = new Campo(provincia = corrientes, costoDeEstancia = 750, valorDeRentaFijo = 400) //duenio banco
+		losPinos 		= new Campo(provincia = entreRios, duenio = tiaTiti, costoDeEstancia = 500, valorDeRentaFijo = 500)
+		
+		empresa1 = new Empresa()
 		
 		tiaTiti.camposJugador().add(coloniaCarolina)
 		munoz.camposJugador().add(elZorzalito)
@@ -54,7 +58,7 @@ describe "El Estanciero, Parte 1" {
 	}
 	
 	test "1-b- Se agrega una estancia en Los Pinos" {
-		tiaTiti.aumentarDineroEn(1000) //lavando guita
+		tiaTiti.cobrar(1000) //lavando guita
 		losPinos.agregarUnaEstancia()
 		assert.equals(1, losPinos.cantidadDeEstancias())
 		assert.equals(500, tiaTiti.dinero())
@@ -72,6 +76,36 @@ describe "El Estanciero, Parte 1" {
 		assert.equals(0, tiaTiti.dinero()) //esta seco
 	}
 	
+	test "2-a- Cada propiedad sabe responder si es empresa" {
+		assert.notThat(losPinos.sosEmpresa()) 
+		assert.that(empresa1.sosEmpresa())
+	}
 	
-		
+	test "2-b- Cantidad de empresas de la tia" {
+		assert.equals(0, tiaTiti.cantidadDeEmpresas()) 
+	}
+	
+	test "3- Tirar dados" {
+		assert.that(munoz.tirarDados().isInteger())
+	}
+	/* 
+	test "4- Renta para un jugador que cayo en un campo" {
+		assert.equals(200, coloniaCarolina.rentaPara(munoz))
+	}
+	
+	test "4- Renta para un jugador que cayo en su propio campo" {
+		assert.equals(270, elZorzalito.rentaPara(munoz))
+	}
+	
+	test "4- Renta para un jugador que cayo en una empresa" {
+		assert.equals(180000, empresa1.rentaPara(munoz)) //en el caso que saque 2
+	}
+	*/
+	test "5- El banco que tenia 10000 le da 5000 a un jugador"{
+		banco.cobrar(10000)
+		banco.pagarA(munoz, 5000)
+		assert.equals(5000, banco.dinero())
+		assert.equals(5000, munoz.dinero())
+	}
+	
 }

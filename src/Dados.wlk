@@ -10,8 +10,12 @@ class Dados {
 		return dado1 + dado2
 	}
 	
+	method tirarDadosSinValidarPrision(){
+		return self.tirarDado() + self.tirarDado()
+	}
+	
 	method tirarDado(){
-		return [1,2,3,4,5,6].anyOne()
+		return 1.randomUpTo(6).truncate(0)
 	}
 	
 	method validarPrision(){
