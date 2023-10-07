@@ -1,0 +1,77 @@
+//import Juego.*
+import Jugador.*
+import Provincia.*
+import Propiedades.*
+import Excepciones.*
+
+describe "El Estanciero, Parte 1" {
+	var coloniaCarolina
+	var elZorzalito
+	var lagunaPucuSur
+	var coloniaPorvenir
+	var losPinos	
+	var corrientes
+	var entreRios
+	var tiaTiti
+	var munoz
+	
+	method initialize(){
+		tiaTiti = new Jugador()
+		munoz 	= new Jugador() 
+		
+		corrientes = new Provincia()
+		entreRios  = new Provincia()
+		
+		coloniaCarolina = new Campo(provincia = corrientes, duenio = tiaTiti, costoDeEstancia = 600)
+		elZorzalito 	= new Campo(provincia = corrientes, duenio = munoz,   costoDeEstancia = 900)
+		lagunaPucuSur 	= new Campo(provincia = corrientes, costoDeEstancia = 1100) //duenio banco
+		coloniaPorvenir = new Campo(provincia = corrientes, costoDeEstancia = 750) //duenio banco
+		losPinos 		= new Campo(provincia = entreRios, duenio = tiaTiti, costoDeEstancia = 500)
+		
+		tiaTiti.camposJugador().add(coloniaCarolina)
+		munoz.camposJugador().add(elZorzalito)
+		
+		corrientes.campos().add(coloniaCarolina)
+		corrientes.campos().add(elZorzalito)
+		corrientes.campos().add(lagunaPucuSur)
+		corrientes.campos().add(coloniaPorvenir)
+//		coloniaPorvenir = new Campo(costoDeConstruccionDeEstancia = 15000, provincia = corrientes, 
+//				valorDeRentaFijo = 2250, precioDeCompraInicial = 50000) //duenio banco	
+	}
+	
+	test "1- Dueños de una provincia sin repetidos, banco aparece una sola vez" {
+		assert.equals(#{banco, tiaTiti, munoz}.size(), corrientes.dueniosDeCampos().size())
+		assert.that(corrientes.dueniosDeCampos().contains(banco))
+		assert.that(corrientes.dueniosDeCampos().contains(tiaTiti))
+		assert.that(corrientes.dueniosDeCampos().contains(munoz))
+	}
+	
+	test "1- Dueños sin repetidos, con version map" {
+		assert.equals(#{banco, tiaTiti, munoz}.size(), corrientes.dueniosDeCamposV2().size())
+		assert.that(corrientes.dueniosDeCampos().contains(banco))
+		assert.that(corrientes.dueniosDeCampos().contains(tiaTiti))
+		assert.that(corrientes.dueniosDeCampos().contains(munoz))
+	}
+	
+	test "1-b- Se agrega una estancia en Los Pinos" {
+		tiaTiti.aumentarDineroEn(1000) //lavando guita
+		losPinos.agregarUnaEstancia()
+		assert.equals(1, losPinos.cantidadDeEstancias())
+		assert.equals(500, tiaTiti.dinero())
+	}
+	
+	test "1-b- No se agrega una estancia porque no es Monopolio" {
+		assert.throwsExceptionLike(noMonopolio, {elZorzalito.agregarUnaEstancia()})
+		assert.equals(0, elZorzalito.cantidadDeEstancias())
+		assert.equals(0, munoz.dinero()) //esta seco tmb
+	}
+	
+	test "1-b- No se agrega una estancia porque no le alcanza el dinero" {
+		assert.throwsExceptionWithMessage(noLoPuedePagar.message(), {losPinos.agregarUnaEstancia()}) 
+		assert.equals(0, losPinos.cantidadDeEstancias())
+		assert.equals(0, tiaTiti.dinero()) //esta seco
+	}
+	
+	
+		
+}
