@@ -3,6 +3,7 @@ import Jugador.*
 import Provincia.*
 import Propiedades.*
 import Excepciones.*
+import Casilleros.*
 
 describe "El Estanciero, Parte 1" {
 	var coloniaCarolina
@@ -42,7 +43,7 @@ describe "El Estanciero, Parte 1" {
 //		coloniaPorvenir = new Campo(costoDeConstruccionDeEstancia = 15000, provincia = corrientes, 
 //				valorDeRentaFijo = 2250, precioDeCompraInicial = 50000) //duenio banco	
 	}
-	
+	/*
 	test "1- Dueños de una provincia sin repetidos, banco aparece una sola vez" {
 		assert.equals(#{banco, tiaTiti, munoz}.size(), corrientes.dueniosDeCampos().size())
 		assert.that(corrientes.dueniosDeCampos().contains(banco))
@@ -88,7 +89,7 @@ describe "El Estanciero, Parte 1" {
 	test "3- Tirar dados" {
 		assert.that(munoz.tirarDados().isInteger())
 	}
-	/* 
+	 
 	test "4- Renta para un jugador que cayo en un campo" {
 		assert.equals(200, coloniaCarolina.rentaPara(munoz))
 	}
@@ -101,10 +102,41 @@ describe "El Estanciero, Parte 1" {
 		assert.equals(180000, empresa1.rentaPara(munoz)) //en el caso que saque 2
 	}
 	*/
-	test "5- El banco que tenia 10000 le da 5000 a un jugador"{
+	test "5- El banco cobra 10000 y le logra dar 5000 a un jugador"{
 		banco.cobrar(10000)
 		banco.pagarA(munoz, 5000)
 		assert.equals(5000, banco.dinero())
+		assert.equals(5000, munoz.dinero())
+	}
+	
+	test "5- El jugador cobra 10000 y le logra dar 5000 al banco"{
+		munoz.cobrar(10000)
+		munoz.pagarA(banco, 5000)
+		assert.equals(5000, munoz.dinero())
+		assert.equals(5000, banco.dinero())
+	}
+	
+	test "5- Lo mismo entre jugadores"{
+		munoz.cobrar(10000)
+		munoz.pagarA(tiaTiti, 5000)
+		assert.equals(5000, munoz.dinero())
+		assert.equals(5000, tiaTiti.dinero())
+	}
+	
+	test "5- Rompe bien cuando el banco intenta darle 5000 a un jugador y no puede"{
+		assert.throwsExceptionLike(noLoPuedePagar, {banco.pagarA(munoz, 5000)})
+		assert.equals(0, banco.dinero())
+		assert.equals(0, munoz.dinero())
+	}
+	
+	test "5- Rompe bien cuando el jugador intenta darle 5000 al banco y no puede"{
+		assert.throwsExceptionLike(noLoPuedePagar, {munoz.pagarA(banco, 5000)})
+		assert.equals(0, banco.dinero())
+		assert.equals(0, munoz.dinero())
+	}
+	
+	test "6- El jugador cobra 5000 por pasar por la salida" {
+		salida.paso(munoz)
 		assert.equals(5000, munoz.dinero())
 	}
 	

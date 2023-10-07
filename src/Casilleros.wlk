@@ -11,19 +11,28 @@ class Propiedad {
 	
 	method rentaPara(jugadorQueCayo)
 	
+	method paso(_unJugador){
+		//no sucede nada
+	}
+	
+	method sosEmpresa()
+	
 	method duenio(){
 		return duenio
 	}
 	
-	method sosEmpresa()
 }
 
 class Premio {
 	
-	
+	method paso(_unJugador){
+		//no sucede nada
+	}
 }
 
 object salida {
 	
-	
+	method paso(unJugador){
+		unJugador.cobrar(5000)
+	}
 }
