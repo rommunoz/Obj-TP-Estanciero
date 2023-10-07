@@ -4,6 +4,7 @@ import Provincia.*
 import Propiedades.*
 import Excepciones.*
 import Casilleros.*
+import Empresas.*
 
 describe "El Estanciero, Parte 1" {
 	var coloniaCarolina
@@ -15,7 +16,6 @@ describe "El Estanciero, Parte 1" {
 	var entreRios
 	var tiaTiti
 	var munoz
-	var empresa1
 	
 	method initialize(){
 		
@@ -25,25 +25,23 @@ describe "El Estanciero, Parte 1" {
 		corrientes = new Provincia()
 		entreRios  = new Provincia()
 		
-		coloniaCarolina = new Campo(provincia = corrientes, duenio = tiaTiti, costoDeEstancia = 600, valorDeRentaFijo = 200)
-		elZorzalito 	= new Campo(provincia = corrientes, duenio = munoz,   costoDeEstancia = 900, valorDeRentaFijo = 270)
-		lagunaPucuSur 	= new Campo(provincia = corrientes, costoDeEstancia = 1100, valorDeRentaFijo = 150) //duenio banco
-		coloniaPorvenir = new Campo(provincia = corrientes, costoDeEstancia = 750, valorDeRentaFijo = 400) //duenio banco
-		losPinos 		= new Campo(provincia = entreRios, duenio = tiaTiti, costoDeEstancia = 500, valorDeRentaFijo = 500)
+		coloniaCarolina = new Campo(provincia = corrientes, duenio = tiaTiti, costoDeEstancia = 600, valorDeRentaFijo = 200, precioInicial = 6000)
+		elZorzalito 	= new Campo(provincia = corrientes, duenio = munoz,   costoDeEstancia = 900, valorDeRentaFijo = 270, precioInicial = 7500)
+		lagunaPucuSur 	= new Campo(provincia = corrientes, costoDeEstancia = 1100, valorDeRentaFijo = 150, precioInicial = 5000) //duenio banco
+		coloniaPorvenir = new Campo(provincia = corrientes, costoDeEstancia = 750, valorDeRentaFijo = 400, precioInicial = 9000) //duenio banco
+		losPinos 		= new Campo(provincia = entreRios, duenio = tiaTiti, costoDeEstancia = 500, valorDeRentaFijo = 500, precioInicial = 12000)
 		
-		empresa1 = new Empresa()
+		tiaTiti.agregarPropiedad(coloniaCarolina)
+		munoz.agregarPropiedad(elZorzalito)
 		
-		tiaTiti.camposJugador().add(coloniaCarolina)
-		munoz.camposJugador().add(elZorzalito)
-		
-		corrientes.campos().add(coloniaCarolina)
-		corrientes.campos().add(elZorzalito)
-		corrientes.campos().add(lagunaPucuSur)
-		corrientes.campos().add(coloniaPorvenir)
+		corrientes.agregarCampo(coloniaCarolina)
+		corrientes.agregarCampo(elZorzalito)
+		corrientes.agregarCampo(lagunaPucuSur)
+		corrientes.agregarCampo(coloniaPorvenir)
 //		coloniaPorvenir = new Campo(costoDeConstruccionDeEstancia = 15000, provincia = corrientes, 
 //				valorDeRentaFijo = 2250, precioDeCompraInicial = 50000) //duenio banco	
 	}
-	/*
+	
 	test "1- Dueños de una provincia sin repetidos, banco aparece una sola vez" {
 		assert.equals(#{banco, tiaTiti, munoz}.size(), corrientes.dueniosDeCampos().size())
 		assert.that(corrientes.dueniosDeCampos().contains(banco))
@@ -101,7 +99,7 @@ describe "El Estanciero, Parte 1" {
 	test "4- Renta para un jugador que cayo en una empresa" {
 		assert.equals(180000, empresa1.rentaPara(munoz)) //en el caso que saque 2
 	}
-	*/
+	
 	test "5- El banco cobra 10000 y le logra dar 5000 a un jugador"{
 		banco.cobrar(10000)
 		banco.pagarA(munoz, 5000)

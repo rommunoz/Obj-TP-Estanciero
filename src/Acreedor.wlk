@@ -2,7 +2,7 @@ import Excepciones.*
 
 class Acreedor {
 	var dinero = 0
-	const empresas = #{}
+	const propiedades = #{}
 	
 	method pagarA(unAcreedor, unMonto){
 		if(!self.puedePagar(unMonto)) throw noLoPuedePagar
@@ -27,7 +27,15 @@ class Acreedor {
 	}
 	
 	method cantidadDeEmpresas(){
-		return empresas.size()
+		return self.empresas().size()
+	}
+	
+	method propiedades(){
+		return propiedades
+	}
+	
+	method empresas(){
+		return self.propiedades().filter{unaPropiedad => unaPropiedad.sosEmpresa()}
 	}
 	
 	method dinero(){

@@ -18,6 +18,10 @@ class Provincia {
 		return self.campos().map{campo => campo.duenio()}
 	}
 	
+	method agregarCampo(unCampo){
+		campos.add(unCampo)
+	}
+	
 	method campos(){
 		return campos
 	}

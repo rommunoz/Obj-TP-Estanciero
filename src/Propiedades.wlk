@@ -12,7 +12,7 @@ class Campo inherits Propiedad {
 	method agregarUnaEstancia(){
 		if (!provincia.esMonopolioPara(duenio)) throw noMonopolio
 		if (!self.esConstruccionPareja()) 		throw noConstruccionPareja
-		duenio.pagarEstancia(costoDeEstancia) // está bien pasarlo así sin el getter?
+		duenio.pagarEstancia(costoDeEstancia) // está bien pasarlo así sin el getter
 		cantidadDeEstancias++
 	}
 	
