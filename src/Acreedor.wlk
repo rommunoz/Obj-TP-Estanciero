@@ -26,19 +26,13 @@ class Acreedor {
 		dinero += unMonto
 	}
 	
-	method cantidadDeEmpresas(){
-		return self.empresas().size()
-	}
+	method cantidadDeEmpresas() = self.empresas().size()
 	
-	method propiedades(){
-		return propiedades
-	}
+	method propiedades() = propiedades
 	
 	method empresas(){
 		return self.propiedades().filter{unaPropiedad => unaPropiedad.sosEmpresa()}
 	}
 	
-	method dinero(){
-		return dinero
-	}
+	method dinero() = dinero
 }

@@ -15,7 +15,7 @@ class Dados {
 	}
 	
 	method tirarDado(){
-		return 1.randomUpTo(6).truncate(0)
+		return 1.randomUpTo(7)
 	}
 	
 	method validarPrision(){

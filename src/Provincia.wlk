@@ -22,9 +22,7 @@ class Provincia {
 		campos.add(unCampo)
 	}
 	
-	method campos(){
-		return campos
-	}
+	method campos() = campos
 	
 	method esMonopolioPara(unDuenio){
 		return campos.all{unCampo => unCampo.duenio() == unDuenio}
