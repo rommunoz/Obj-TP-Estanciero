@@ -1,5 +1,8 @@
+import Tablero.*
+
 class Juego {
 	const jugadores = []
+	const property tablero = new Tablero()
 	
 	var property estaTerminado = false
 	
@@ -10,6 +13,6 @@ class Juego {
 	}
 	
 	method queJuegue(unJugador) {
-		unJugador.jugar()
+		unJugador.jugar(self.tablero())
 	}
 }

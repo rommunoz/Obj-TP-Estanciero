@@ -2,7 +2,7 @@ import Propiedades.*
 import Jugador.*
 
 class Provincia {
-	var campos = #{}
+	const campos = new Set()
 	
 	method dueniosDeCampos(){ //es como copiarlos y agregarlos a un set
 		const duenios = #{}

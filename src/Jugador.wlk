@@ -3,18 +3,20 @@ import Acreedor.*
 import Excepciones.*
 import Empresas.*
 import Casilleros.*
+import Tablero.*
 
 class Jugador inherits Acreedor {
 	
 	const susDados = new Dados()
-	//punto 8
-	var property casilleroActual = salida
+	var property casilleroActual = salida //punto 8
 
-	method jugar(){
+	//punto 9
+	method jugar(unTablero){
 		const unNumero = self.tirarDados()
-		self.avanzar(unNumero)
+		const casilleros = unTablero.casillerosDesdeHasta(self.casilleroActual(), unNumero)
+		self.moverseSobre(casilleros)
 	}
-	
+	//-
 	method comprar(unaPropiedad){ //falta contemplar la compra a otro jugador
 		self.pagarA(banco, unaPropiedad.precioInicial())
 		self.agregarPropiedad(unaPropiedad)

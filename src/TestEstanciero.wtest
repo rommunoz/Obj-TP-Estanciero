@@ -5,6 +5,8 @@ import Propiedades.*
 import Excepciones.*
 import Casilleros.*
 import Empresas.*
+import Tablero.*
+import Juego.*
 
 describe "El Estanciero, Parte 1" {
 	var coloniaCarolina
@@ -16,6 +18,9 @@ describe "El Estanciero, Parte 1" {
 	var entreRios
 	var tiaTiti
 	var munoz
+	
+	var unJuego
+	var miTablero
 	
 	method initialize(){
 		
@@ -40,6 +45,10 @@ describe "El Estanciero, Parte 1" {
 		corrientes.agregarCampo(coloniaPorvenir)
 //		coloniaPorvenir = new Campo(costoDeConstruccionDeEstancia = 15000, provincia = corrientes, 
 //				valorDeRentaFijo = 2250, precioDeCompraInicial = 50000) //duenio banco	
+		miTablero = new Tablero()
+		miTablero.casilleros().addAll([coloniaCarolina, elZorzalito]) //, lagunaPucuSur, premioGanadero, coloniaPorvenir, losPinos]
+		
+		unJuego = new Juego(jugadores = [tiaTiti, munoz], tablero = miTablero)
 	}
 	
 	test "1- Dueños de una provincia sin repetidos, banco aparece una sola vez" {
@@ -55,7 +64,7 @@ describe "El Estanciero, Parte 1" {
 		assert.that(corrientes.dueniosDeCampos().contains(tiaTiti))
 		assert.that(corrientes.dueniosDeCampos().contains(munoz))
 	}
-	/* 
+	 
 	test "1-b- Se agrega una estancia en Los Pinos" {
 		tiaTiti.cobrar(1000) //lavando guita
 		losPinos.agregarUnaEstancia()
@@ -141,7 +150,7 @@ describe "El Estanciero, Parte 1" {
 		salida.paso(munoz)
 		assert.equals(5000, munoz.dinero())
 	}
-	*/
+	
 	test "6- No pasa nada al pasar por casilleros que sean propiedades o premios" {
 		elZorzalito.paso(munoz)
 		premioGanadero.paso(munoz)
@@ -164,6 +173,7 @@ describe "El Estanciero, Parte 1" {
 	test "7- Munoz cae en coloniaCarolina y no puede pagar la renta" {
 		assert.throwsExceptionLike(noLoPuedePagar, {coloniaCarolina.cayo(munoz)})
 	}
+	
 	
 	test "7- Munoz cae en coloniaCarolina y paga la renta" {
 		munoz.cobrar(5000)
@@ -193,5 +203,32 @@ describe "El Estanciero, Parte 1" {
 		tiaTiti.moverseSobre([elZorzalito])
 		assert.equals(1730, tiaTiti.dinero())
 		assert.equals(elZorzalito, tiaTiti.casilleroActual())
+	} 
+	
+	test "9- Hacemos que titi juegue 1 turno desde la salida" {
+		unJuego.queJuegue(tiaTiti)
+		assert.equals(5000, tiaTiti.dinero())
+		assert.equals(elZorzalito, tiaTiti.casilleroActual())
 	}
+	
+	test "9- Hacemos que titi avance sobre 3 casilleros desde la salida" {
+		miTablero.casilleros().add(premioGanadero)
+		//en las siguientes 3 lineas uso la lógica con la que el jugador juega solo para fijar el valor de los dados
+		const unNumero = 3
+		const casilleros = miTablero.casillerosDesdeHasta(tiaTiti.casilleroActual(), unNumero)
+		tiaTiti.moverseSobre(casilleros)
+		assert.equals(2500, tiaTiti.dinero())
+		assert.equals(premioGanadero, tiaTiti.casilleroActual())
+	}
+	
+	test "9- Hacemos que titi avance sobre 4 casilleros desde la salida, vuelve a caer en la salida" {
+		miTablero.casilleros().add(premioGanadero) 
+		const unNumero = 4
+		const casilleros = miTablero.casillerosDesdeHasta(tiaTiti.casilleroActual(), unNumero)
+		tiaTiti.moverseSobre(casilleros)
+		assert.equals(5000, tiaTiti.dinero())
+		assert.equals(salida, tiaTiti.casilleroActual())
+	}
+	
+	
 }

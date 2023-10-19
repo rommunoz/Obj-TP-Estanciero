@@ -1,5 +1,7 @@
+import Casilleros.*
+
 class Tablero {
-	const property casilleros = []
+	const property casilleros = [salida]
 
 	method casillerosDesdeHasta(unCasillero, unNumero) {
 		return self.casillerosDesde(casilleros.copy(), unCasillero).take(unNumero)
@@ -9,6 +11,6 @@ class Tablero {
 		const primero = unosCasilleros.first()
 		unosCasilleros.remove(primero) // Remueve el primero
 		unosCasilleros.add(primero) // Lo agrega al final
-		return unosCasilleros
+		return if (primero == unCasillero) unosCasilleros else self.casillerosDesde(unosCasilleros, unCasillero)
 	}
 }

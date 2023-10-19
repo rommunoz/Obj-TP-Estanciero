@@ -1,12 +1,15 @@
 class Dados {
-	var vecesQueSacoDoble = 0
+	var habiaSacadoDoble = false
 	
 	method tirar(unJugador){
 		const dado1 = self.tirarDado()
 		const dado2 = self.tirarDado()
-		if (dado1 == dado2) vecesQueSacoDoble++ else self.resetearDoble()
-		if (self.validarPrision()) 
-			self.mandarAPrision(unJugador)
+		if (dado1 == dado2){
+			if (self.validarPrision()) 
+				self.mandarAPrision(unJugador)
+		} else {
+			self.resetearDoble()
+		}
 		return dado1 + dado2
 	}
 	
@@ -19,7 +22,7 @@ class Dados {
 	}
 	
 	method validarPrision(){
-		return vecesQueSacoDoble >= 2
+		return habiaSacadoDoble
 	}
 	
 	method mandarAPrision(unJugador){
@@ -28,6 +31,6 @@ class Dados {
 	}
 	
 	method resetearDoble(){
-		vecesQueSacoDoble = 0
+		habiaSacadoDoble = false
 	}
 }
