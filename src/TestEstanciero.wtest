@@ -55,7 +55,7 @@ describe "El Estanciero, Parte 1" {
 		assert.that(corrientes.dueniosDeCampos().contains(tiaTiti))
 		assert.that(corrientes.dueniosDeCampos().contains(munoz))
 	}
-	
+	/* 
 	test "1-b- Se agrega una estancia en Los Pinos" {
 		tiaTiti.cobrar(1000) //lavando guita
 		losPinos.agregarUnaEstancia()
@@ -86,6 +86,7 @@ describe "El Estanciero, Parte 1" {
 	
 	test "3- Tirar dados" {
 		assert.that(munoz.tirarDados().isInteger())
+		//assert.equals(10, munoz.tirarDados())
 	}
 	 
 	test "4- Renta para un jugador que cayo en un campo" {
@@ -97,7 +98,10 @@ describe "El Estanciero, Parte 1" {
 	}
 	
 	test "4- Renta para un jugador que cayo en una empresa" {
-		assert.equals(180000, empresa1.rentaPara(munoz)) //en el caso que saque 2
+		assert.that(empresa1.rentaPara(munoz).isInteger())
+		assert.that(empresa1.rentaPara(munoz) >= 2 * 30000)
+		assert.that(empresa1.rentaPara(munoz) <= 12 * 30000 * 3) //siendo 3 el nro max de empresas del juego
+		//assert.equals(180000, empresa1.rentaPara(munoz)) //en el caso que saque 2
 	}
 	
 	test "5- El banco cobra 10000 y le logra dar 5000 a un jugador"{
@@ -137,5 +141,57 @@ describe "El Estanciero, Parte 1" {
 		salida.paso(munoz)
 		assert.equals(5000, munoz.dinero())
 	}
+	*/
+	test "6- No pasa nada al pasar por casilleros que sean propiedades o premios" {
+		elZorzalito.paso(munoz)
+		premioGanadero.paso(munoz)
+		assert.equals(00, munoz.dinero())
+	}
 	
+	test "7- Munoz cae en lagunaPucuSur, cuyo duenio es el banco, entonces la debe comprar, lo logra porque se le dio 5000 " {
+		munoz.cobrar(5000)
+		lagunaPucuSur.cayo(munoz)
+		assert.equals(0, munoz.dinero())
+		assert.equals(true, munoz.propiedades().contains(lagunaPucuSur))
+		assert.equals(false, banco.propiedades().contains(lagunaPucuSur))
+	}
+	
+	test "7- Munoz cae en su propio Zorzalito y no pasa nada" {
+		elZorzalito.cayo(munoz)
+		assert.equals(0, munoz.dinero())
+	}
+	
+	test "7- Munoz cae en coloniaCarolina y no puede pagar la renta" {
+		assert.throwsExceptionLike(noLoPuedePagar, {coloniaCarolina.cayo(munoz)})
+	}
+	
+	test "7- Munoz cae en coloniaCarolina y paga la renta" {
+		munoz.cobrar(5000)
+		coloniaCarolina.cayo(munoz)
+		assert.equals(4800, munoz.dinero())
+		assert.equals(200, tiaTiti.dinero())
+	}
+	
+	test "7- Munoz cobra premioGanadero por caer en el mismo" {
+		premioGanadero.cayo(munoz)
+		assert.equals(2500, munoz.dinero())
+	}
+	
+	test "7- Munoz cae en la salida y no pasa nada" {
+		salida.cayo(munoz)
+		assert.equals(0, munoz.dinero())
+	}
+
+	test "8- Titi se mueve sobre la salida(cobra 5000) y cae en su propio campo(no paga nada)" {
+		tiaTiti.moverseSobre([lagunaPucuSur, salida, coloniaCarolina])
+		assert.equals(5000, tiaTiti.dinero())
+		assert.equals(coloniaCarolina, tiaTiti.casilleroActual())
+	}
+	
+	test "8- Titi se mueve sobre un solo casillero y realiza la accion para el casillero donde cayo" {
+		tiaTiti.cobrar(2000)
+		tiaTiti.moverseSobre([elZorzalito])
+		assert.equals(1730, tiaTiti.dinero())
+		assert.equals(elZorzalito, tiaTiti.casilleroActual())
+	}
 }

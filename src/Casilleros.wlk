@@ -2,7 +2,7 @@ import Jugador.*
 
 class Propiedad {
 	
-	var duenio = banco
+	var property duenio = banco
 	const precioInicial
 	
 	method pagarA(){ // accionSegunCasillero()?
@@ -11,16 +11,14 @@ class Propiedad {
 	method rentaPara(jugadorQueCayo)
 	method sosEmpresa()
 	
+	//punto 6
 	method paso(_unJugador){
 		//no sucede nada
 	}
 	
+	//punto 7
 	method cayo(unJugador){
 		duenio.cayoEn(unJugador, self)
-	}
-	
-	method duenio(){
-		return duenio
 	}
 	
 	method precioInicial(){
@@ -30,14 +28,28 @@ class Propiedad {
 
 class Premio {
 	
+	const bono
+	
 	method paso(_unJugador){
 		//no sucede nada
 	}
+	
+	//punto 7
+	method cayo(unJugador){
+		unJugador.cobrar(bono)
+	}
 }
+
+const premioGanadero = new Premio (bono = 2500)
 
 object salida {
 	
 	method paso(unJugador){
 		unJugador.cobrar(5000)
+	}
+	
+	//punto 7
+	method cayo(_unJugador){
+		//no sucede nada
 	}
 }

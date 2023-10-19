@@ -2,10 +2,13 @@ import Dados.*
 import Acreedor.*
 import Excepciones.*
 import Empresas.*
+import Casilleros.*
 
 class Jugador inherits Acreedor {
-	//var casilleroActual
-	var susDados = new Dados()
+	
+	const susDados = new Dados()
+	//punto 8
+	var property casilleroActual = salida
 
 	method jugar(){
 		const unNumero = self.tirarDados()
@@ -34,20 +37,35 @@ class Jugador inherits Acreedor {
 		return susDados.tirarDadosSinValidarPrision()
 	}
 	
+	// punto 7
 	method cayoEn(jugadorQueCayo, miPropiedad){
-		jugadorQueCayo.pagarRentaPara(self, miPropiedad)
+		if(jugadorQueCayo != self)
+			jugadorQueCayo.pagarRentaPara(self, miPropiedad)
 	}
 
 	method pagarRentaPara(unAcreedor, unaPropiedad){ //no lo pongo en Acreedor porque el banco no cae en casilleros
 		self.pagarA(unAcreedor, unaPropiedad.rentaPara(self))
 	}
 
+	//punto 8 
+	method moverseSobre(unosCasilleros){
+		unosCasilleros.forEach{casillero => casillero.paso(self)}
+		self.caerEn(unosCasilleros.last())
+	}
+
+	method caerEn(unCasillero){
+		unCasillero.cayo(self)
+		self.casilleroActual(unCasillero)
+	}
+	
+	//-
 	method avanzar(unNumero){	
 	}
 }
 
 object banco inherits Acreedor (propiedades = #{empresa1, empresa2, empresa3}) {
 
+	// punto 7
 	method cayoEn(jugadorQueCayo, miPropiedad){
 		self.vender(miPropiedad, jugadorQueCayo)
 	}
