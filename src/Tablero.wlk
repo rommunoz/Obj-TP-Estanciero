@@ -1,7 +1,7 @@
 import Casilleros.*
 
 class Tablero {
-	const property casilleros = [salida]
+	const property casilleros = [salida, prision]
 
 	method casillerosDesdeHasta(unCasillero, unNumero) {
 		return self.casillerosDesde(casilleros.copy(), unCasillero).take(unNumero)

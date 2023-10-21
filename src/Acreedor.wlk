@@ -2,7 +2,7 @@ import Excepciones.*
 
 class Acreedor {
 	var dinero = 0
-	const propiedades = #{}
+	const propiedades = new Set()
 	
 	method pagarA(unAcreedor, unMonto){
 		if(!self.puedePagar(unMonto)) throw noLoPuedePagar

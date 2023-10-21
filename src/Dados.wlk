@@ -14,13 +14,12 @@ class Dados {
 		return dado1 + dado2
 	}
 	
-	method tirarPreso(unJugador){
+	method tirarPreso(unJugador, unTablero){
 		const dado1 = self.tirarDado()
 		const dado2 = self.tirarDado()
 		if (dado1 == dado2 or unJugador.cumplioCondena()){
-			unJugador.salirDePrision(dado1 + dado2)
+			unJugador.salirDePrision(unTablero, dado1 + dado2)
 		}
-		return dado1 + dado2
 	}
 	
 	//-

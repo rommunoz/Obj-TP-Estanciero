@@ -30,12 +30,12 @@ class Jugador inherits Acreedor {
 	//TODO: analizar si sería mejor tener 1 solo tirarDados que dependa de la situacion, 
 		//y cada situacion tendra un DadosParaPreso o DadosParaLibre.
 			//ahora bien, si me agregan otro comportamiento mas de tiro, creo que debo hacer esto si o si
-	method tirarPreso(){
-		return susDados.tirarPreso(self)
+	method tirarPreso(unTablero){
+		susDados.tirarPreso(self, unTablero)
 	}
 	
 	method moverseSegunSituacion(unTablero, unNumero){
-		situacionLegal.moverseSobre(unTablero, unNumero, self)
+		situacionLegal.moverseSobre(self, unTablero, unNumero)
 	}
 	//
 	
@@ -45,11 +45,11 @@ class Jugador inherits Acreedor {
 	
 	method salirDePrision(unTablero, unNumero){
 		situacionLegal = new Libre()
-		situacionLegal.moverseSobre(unTablero, unNumero)
+		self.moverseSegunSituacion(unTablero, unNumero)
 	}
 	
 	method cumplioCondena(){
-		return situacionLegal.cumplioLaCondena(self)
+		return situacionLegal.cumplioLaCondena()
 	}
 	//- fin punto9 ext 1
 	

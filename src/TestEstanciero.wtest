@@ -204,7 +204,7 @@ describe "El Estanciero, Parte 1" {
 		assert.equals(1730, tiaTiti.dinero())
 		assert.equals(elZorzalito, tiaTiti.casilleroActual())
 	} */
-	
+	/*
 	test "9- Hacemos que titi juegue 1 turno desde la salida" {
 		unJuego.queJuegue(tiaTiti)
 		assert.equals(5000, tiaTiti.dinero())
@@ -220,7 +220,7 @@ describe "El Estanciero, Parte 1" {
 		assert.equals(2500, tiaTiti.dinero())
 		assert.equals(premioGanadero, tiaTiti.casilleroActual())
 	}
-	/* 
+	 
 	test "9- Hacemos que titi avance sobre 4 casilleros desde la salida, vuelve a caer en la salida" {
 		miTablero.casilleros().add(premioGanadero) 
 		const unNumero = 4
@@ -231,5 +231,21 @@ describe "El Estanciero, Parte 1" {
 	}
 	*/
 	
+	test "9- Ext" {
+		tiaTiti.cobrar(10000)
+		tiaTiti.marchePreso()
+		tiaTiti.caerEn(prision)
+		
+		//assert.equals(0, tiaTiti.dinero())
+		assert.equals(prision, tiaTiti.casilleroActual())
+		unJuego.queJuegue(tiaTiti)
+		assert.equals(prision, tiaTiti.casilleroActual())
+		unJuego.queJuegue(tiaTiti)
+		assert.equals(prision, tiaTiti.casilleroActual())
+		unJuego.queJuegue(tiaTiti)
+		assert.equals(prision, tiaTiti.casilleroActual())
+		unJuego.queJuegue(tiaTiti)
+		assert.equals(prision, tiaTiti.casilleroActual())
+	}
 	
 }

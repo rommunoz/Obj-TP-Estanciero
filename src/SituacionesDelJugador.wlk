@@ -17,13 +17,17 @@ class Libre {
 		casilleros.forEach{casillero => casillero.paso(unJugador)}
 		unJugador.caerEn(casilleros.last())
 	}
+	
+	method cumplioLaCondena(){ //solo para completar
+		 return true
+	}
 }
 
 class Preso {
 	var turnosAPerder = 3
 	
-	method jugar(_unTablero, unJugador) {  
-		const unNumero = unJugador.tirarPreso()
+	method jugar(unTablero, unJugador) {  
+		unJugador.tirarPreso(unTablero)
 		turnosAPerder--
 	}
 	
@@ -31,7 +35,7 @@ class Preso {
 		unJugador.caerEn(prision)
 	}
 	
-	method cumplioLaCondena(unJugador){
+	method cumplioLaCondena(){
 		 return self.turnosAPerder() == 0
 	}
 	
