@@ -42,6 +42,17 @@ class Premio {
 
 const premioGanadero = new Premio (bono = 2500)
 
+object prision {
+	
+	method paso(unJugador){
+		//no sucede nada
+	}
+	
+	method cayo(_unJugador){
+		//no sucede nada
+	}
+}
+
 object salida {
 	
 	method paso(unJugador){

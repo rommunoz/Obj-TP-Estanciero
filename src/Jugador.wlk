@@ -4,19 +4,55 @@ import Excepciones.*
 import Empresas.*
 import Casilleros.*
 import Tablero.*
+import SituacionesDelJugador.*
 
 class Jugador inherits Acreedor {
 	
 	const susDados = new Dados()
+	
 	var property casilleroActual = salida //punto 8
+	var property situacionLegal = new Libre() //ese nombre??) punto 9, (libre juega normal) o preso
 
 	//punto 9
+//	method jugar(unTablero){
+//		const unNumero = situacionLegal.tirarDados() //TODO: consigo el nro () y cambio (o no) mi situacion
+//		situacionLegal.jugar(unTablero, self, unNumero) //TODO: acciono segun situacion, ya tengo nro
+//	}
+
+	//punto 9 (extension 1)
 	method jugar(unTablero){
-		const unNumero = self.tirarDados()
-		const casilleros = unTablero.casillerosDesdeHasta(self.casilleroActual(), unNumero)
-		self.moverseSobre(casilleros)
+		situacionLegal.jugar(unTablero, self) //TODO: acciono segun situacion
 	}
-	//-
+
+	method tirarLibre(){
+		return susDados.tirarLibre(self)
+	}
+	//TODO: analizar si sería mejor tener 1 solo tirarDados que dependa de la situacion, 
+		//y cada situacion tendra un DadosParaPreso o DadosParaLibre.
+			//ahora bien, si me agregan otro comportamiento mas de tiro, creo que debo hacer esto si o si
+	method tirarPreso(){
+		return susDados.tirarPreso(self)
+	}
+	
+	method moverseSegunSituacion(unTablero, unNumero){
+		situacionLegal.moverseSobre(unTablero, unNumero, self)
+	}
+	//
+	
+	method marchePreso(){
+		situacionLegal = new Preso()
+	}
+	
+	method salirDePrision(unTablero, unNumero){
+		situacionLegal = new Libre()
+		situacionLegal.moverseSobre(unTablero, unNumero)
+	}
+	
+	method cumplioCondena(){
+		return situacionLegal.cumplioLaCondena(self)
+	}
+	//- fin punto9 ext 1
+	
 	method comprar(unaPropiedad){ //falta contemplar la compra a otro jugador
 		self.pagarA(banco, unaPropiedad.precioInicial())
 		self.agregarPropiedad(unaPropiedad)
@@ -30,14 +66,8 @@ class Jugador inherits Acreedor {
 	method pagarEstancia(unMonto){
 		self.pagarA(banco, unMonto)
 	}
+
 	
-	method tirarDados(){
-		return susDados.tirar(self)
-	}
-	
-	method volverATirar(){
-		return susDados.tirarDadosSinValidarPrision()
-	}
 	
 	// punto 7
 	method cayoEn(jugadorQueCayo, miPropiedad){
@@ -59,10 +89,8 @@ class Jugador inherits Acreedor {
 		unCasillero.cayo(self)
 		self.casilleroActual(unCasillero)
 	}
-	
 	//-
-	method avanzar(unNumero){	
-	}
+	
 }
 
 object banco inherits Acreedor (propiedades = #{empresa1, empresa2, empresa3}) {

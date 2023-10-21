@@ -1,18 +1,29 @@
 class Dados {
 	var habiaSacadoDoble = false
 	
-	method tirar(unJugador){
+	//punto 9
+	method tirarLibre(unJugador){
 		const dado1 = self.tirarDado()
 		const dado2 = self.tirarDado()
 		if (dado1 == dado2){
-			if (self.validarPrision()) 
-				self.mandarAPrision(unJugador)
+			self.validarPrision(unJugador) 
+			habiaSacadoDoble = true
 		} else {
 			self.resetearDoble()
 		}
 		return dado1 + dado2
 	}
 	
+	method tirarPreso(unJugador){
+		const dado1 = self.tirarDado()
+		const dado2 = self.tirarDado()
+		if (dado1 == dado2 or unJugador.cumplioCondena()){
+			unJugador.salirDePrision(dado1 + dado2)
+		}
+		return dado1 + dado2
+	}
+	
+	//-
 	method tirarDadosSinValidarPrision(){
 		return self.tirarDado() + self.tirarDado()
 	}
@@ -21,13 +32,10 @@ class Dados {
 		return 1.randomUpTo(7).truncate(0)
 	}
 	
-	method validarPrision(){
-		return habiaSacadoDoble
-	}
-	
-	method mandarAPrision(unJugador){
-		unJugador.marchePreso()
-		self.resetearDoble()
+	method validarPrision(unJugador){
+		if (habiaSacadoDoble){
+			unJugador.marchePreso()
+		}
 	}
 	
 	method resetearDoble(){

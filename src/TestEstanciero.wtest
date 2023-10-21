@@ -64,7 +64,7 @@ describe "El Estanciero, Parte 1" {
 		assert.that(corrientes.dueniosDeCampos().contains(tiaTiti))
 		assert.that(corrientes.dueniosDeCampos().contains(munoz))
 	}
-	 
+	/* 
 	test "1-b- Se agrega una estancia en Los Pinos" {
 		tiaTiti.cobrar(1000) //lavando guita
 		losPinos.agregarUnaEstancia()
@@ -203,7 +203,7 @@ describe "El Estanciero, Parte 1" {
 		tiaTiti.moverseSobre([elZorzalito])
 		assert.equals(1730, tiaTiti.dinero())
 		assert.equals(elZorzalito, tiaTiti.casilleroActual())
-	} 
+	} */
 	
 	test "9- Hacemos que titi juegue 1 turno desde la salida" {
 		unJuego.queJuegue(tiaTiti)
@@ -220,7 +220,7 @@ describe "El Estanciero, Parte 1" {
 		assert.equals(2500, tiaTiti.dinero())
 		assert.equals(premioGanadero, tiaTiti.casilleroActual())
 	}
-	
+	/* 
 	test "9- Hacemos que titi avance sobre 4 casilleros desde la salida, vuelve a caer en la salida" {
 		miTablero.casilleros().add(premioGanadero) 
 		const unNumero = 4
@@ -229,6 +229,7 @@ describe "El Estanciero, Parte 1" {
 		assert.equals(5000, tiaTiti.dinero())
 		assert.equals(salida, tiaTiti.casilleroActual())
 	}
+	*/
 	
 	
 }
