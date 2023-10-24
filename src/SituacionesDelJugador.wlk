@@ -1,19 +1,20 @@
 import Jugador.*
 import Dados.*
-import Casilleros.*
+import Casillero.*
+import Tablero.*
 
 //la interfaz de una Situacion seria jugar y moverseSobre
 
-class Libre {
+object libre {
 
 	//punto 9
-	method jugar(unTablero, unJugador){	
+	method jugar(unJugador){	
 		const unNumero = unJugador.tirarLibre()		
-		unJugador.moverseSegunSituacion(unTablero, unNumero) //si sigue libre se mueveSobre los casilleros, sino, solo cae en la prision
+		self.moverseSobre(unJugador, unNumero) //si sigue libre se mueveSobre los casilleros, sino, solo cae en la prision
 	}
 	
-	method moverseSobre(unJugador, unTablero, unNumero){
-		const casilleros = unTablero.casillerosDesdeHasta(unJugador.casilleroActual(), unNumero)
+	method moverseSobre(unJugador, unNumero){
+		const casilleros = tablero.casillerosDesdeHasta(unJugador.casilleroActual(), unNumero)
 		casilleros.forEach{casillero => casillero.paso(unJugador)}
 		unJugador.caerEn(casilleros.last())
 	}
@@ -21,17 +22,24 @@ class Libre {
 	method cumplioLaCondena(){ //solo para completar
 		 return true
 	}
+	
+	method turnosAPerder() = 0 //solo para completar
 }
 
 class Preso {
 	var turnosAPerder = 3
 	
-	method jugar(unTablero, unJugador) {  
-		unJugador.tirarPreso(unTablero)
-		turnosAPerder--
+	method jugar(unJugador) {  
+		if (self.cumplioLaCondena()){
+			unJugador.salirDePrision()
+			unJugador.jugar()
+		} else { 
+			unJugador.sacoDobles()
+			turnosAPerder--
+		}
 	}
 	
-	method moverseSobre(unJugador, _unTablero, _unNumero){
+	method moverseSobre(unJugador, _unNumero){
 		unJugador.caerEn(prision)
 	}
 	

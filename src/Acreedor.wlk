@@ -3,7 +3,15 @@ import Excepciones.*
 class Acreedor {
 	var dinero = 0
 	const propiedades = new Set()
+
+	//2b
+	method cantidadDeEmpresas() = self.empresas().size()
+		
+	method empresas(){
+		return self.propiedades().filter{unaPropiedad => unaPropiedad.sosEmpresa()}
+	}
 	
+	//5	
 	method pagarA(unAcreedor, unMonto){
 		if(!self.puedePagar(unMonto)) throw noLoPuedePagar
 		self.pagar(unMonto)
@@ -25,13 +33,16 @@ class Acreedor {
 	method modificarDinero(unMonto){
 		dinero += unMonto
 	}
+	//
 	
-	method cantidadDeEmpresas() = self.empresas().size()
+	//7
+	method accionDeTitularSobrePropiedad(unJugador, unaPropiedad)
 	
 	method propiedades() = propiedades
 	
-	method empresas(){
-		return self.propiedades().filter{unaPropiedad => unaPropiedad.sosEmpresa()}
+	
+	method campos(){
+		return self.propiedades().filter{unaPropiedad => !(unaPropiedad.sosEmpresa())}
 	}
 	
 	method dinero() = dinero

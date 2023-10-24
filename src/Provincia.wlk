@@ -1,16 +1,22 @@
-import Propiedades.*
+import Campo.*
 import Jugador.*
 
 class Provincia {
 	const campos = new Set()
 	
-	method dueniosDeCampos(){ //es como copiarlos y agregarlos a un set
+	//extension 2
+	method todosLosCamposEstanSinDuenio(){
+		return self.esMonopolioPara(banco)
+	}
+	
+	//1a 
+	method dueniosDeCamposV2(){ //alternativa: copiarlos y agregarlos a un set
 		const duenios = #{}
 		self.campos().forEach{campo => duenios.add(campo.duenio())}
 		return duenios
 	}
 	
-	method dueniosDeCamposV2(){ //alternativa map de campos y luego devolverlo como set
+	method dueniosDeCampos(){ //map de campos y luego devolverlo como set
 		return self.dueniosConRepetidos().asSet()
 	}
 	
@@ -18,6 +24,7 @@ class Provincia {
 		return self.campos().map{campo => campo.duenio()}
 	}
 	
+	//1b
 	method agregarCampo(unCampo){
 		campos.add(unCampo)
 	}

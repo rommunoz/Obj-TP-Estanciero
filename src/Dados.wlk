@@ -2,7 +2,7 @@ class Dados {
 	var habiaSacadoDoble = false
 	
 	//punto 9
-	method tirarLibre(unJugador){
+	method tirarDados(unJugador){ //libre
 		const dado1 = self.tirarDado()
 		const dado2 = self.tirarDado()
 		if (dado1 == dado2){
@@ -14,12 +14,8 @@ class Dados {
 		return dado1 + dado2
 	}
 	
-	method tirarPreso(unJugador, unTablero){
-		const dado1 = self.tirarDado()
-		const dado2 = self.tirarDado()
-		if (dado1 == dado2 or unJugador.cumplioCondena()){
-			unJugador.salirDePrision(unTablero, dado1 + dado2)
-		}
+	method sacoDobles(unJugador){
+		return self.tirarDado() == self.tirarDado()
 	}
 	
 	//-

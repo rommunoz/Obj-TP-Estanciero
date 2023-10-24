@@ -1,18 +1,24 @@
-import Casilleros.*
+import Casillero.*
 import Jugador.*  
 import Excepciones.*  
+import Propiedad.*  
 
 class Campo inherits Propiedad {
-	const provincia
+	const property provincia
 	const valorDeRentaFijo
 	const costoDeEstancia 
 	var cantidadDeEstancias = 0
 	
 	
-	method agregarUnaEstancia(){
+	//1b
+	method construirEstancia(){
 		if (!provincia.esMonopolioPara(duenio)) throw noMonopolio
 		if (!self.esConstruccionPareja()) 		throw noConstruccionPareja
 		duenio.pagarEstancia(costoDeEstancia) // está bien pasarlo así sin el getter
+		self.agregarUnaEstancia()
+	}
+	
+	method agregarUnaEstancia() {
 		cantidadDeEstancias++
 	}
 	
@@ -28,24 +34,17 @@ class Campo inherits Propiedad {
 		return cantidadDeEstancias
 	}
 	
-	override method sosEmpresa(){
-		return false
-	}
+	//2a
+	override method sosEmpresa() = false
 	
+	//4
 	override method rentaPara(_jugadorQueCayo){
 		return (2 ** cantidadDeEstancias) * valorDeRentaFijo  
 	}
 	
-}
-
-class Empresa inherits Propiedad {
-	
-	override method sosEmpresa(){
-		return true
+	//extension 2
+	method cumpleRequisitosDe(unaEstrategia, unJugador){
+		return unaEstrategia.cumpleRequisitosElCampo(self, unJugador, self.provincia())
 	}
-	
-	override method rentaPara(jugadorQueCayo){
-		const numero = jugadorQueCayo.volverATirar()
-		return numero * 30000 * duenio.cantidadDeEmpresas()
-	}
+	//
 }

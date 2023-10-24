@@ -1,10 +1,14 @@
 //import Juego.*
 import Jugador.*
 import Provincia.*
-import Propiedades.*
+import Propiedad.*
+import Campo.*
+import Empresa.*
+import Banco.*
 import Excepciones.*
-import Casilleros.*
-import Empresas.*
+import Casillero.*
+import CasillerosEspeciales.*
+import Empresa.*
 import Tablero.*
 import Juego.*
 
@@ -18,9 +22,6 @@ describe "El Estanciero, Parte 1" {
 	var entreRios
 	var tiaTiti
 	var munoz
-	
-	var unJuego
-	var miTablero
 	
 	method initialize(){
 		
@@ -45,10 +46,8 @@ describe "El Estanciero, Parte 1" {
 		corrientes.agregarCampo(coloniaPorvenir)
 //		coloniaPorvenir = new Campo(costoDeConstruccionDeEstancia = 15000, provincia = corrientes, 
 //				valorDeRentaFijo = 2250, precioDeCompraInicial = 50000) //duenio banco	
-		miTablero = new Tablero()
-		miTablero.casilleros().addAll([coloniaCarolina, elZorzalito]) //, lagunaPucuSur, premioGanadero, coloniaPorvenir, losPinos]
-		
-		unJuego = new Juego(jugadores = [tiaTiti, munoz], tablero = miTablero)
+		tablero.casilleros().addAll([coloniaCarolina, elZorzalito]) //, lagunaPucuSur, premioGanadero, coloniaPorvenir, losPinos]
+		juego.jugadores().addAll([tiaTiti, munoz])
 	}
 	
 	test "1- Dueños de una provincia sin repetidos, banco aparece una sola vez" {
@@ -238,14 +237,15 @@ describe "El Estanciero, Parte 1" {
 		
 		//assert.equals(0, tiaTiti.dinero())
 		assert.equals(prision, tiaTiti.casilleroActual())
-		unJuego.queJuegue(tiaTiti)
+		juego.queJuegue(tiaTiti)
 		assert.equals(prision, tiaTiti.casilleroActual())
-		unJuego.queJuegue(tiaTiti)
+		juego.queJuegue(tiaTiti)
 		assert.equals(prision, tiaTiti.casilleroActual())
-		unJuego.queJuegue(tiaTiti)
+		juego.queJuegue(tiaTiti)
 		assert.equals(prision, tiaTiti.casilleroActual())
-		unJuego.queJuegue(tiaTiti)
+		juego.queJuegue(tiaTiti)
 		assert.equals(prision, tiaTiti.casilleroActual())
 	}
+	
 	
 }

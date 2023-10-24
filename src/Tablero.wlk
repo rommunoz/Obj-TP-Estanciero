@@ -1,6 +1,6 @@
-import Casilleros.*
+import CasillerosEspeciales.*
 
-class Tablero {
+object tablero {
 	const property casilleros = [salida, prision]
 
 	method casillerosDesdeHasta(unCasillero, unNumero) {
