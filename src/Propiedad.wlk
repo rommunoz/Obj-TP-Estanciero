@@ -4,7 +4,7 @@ import Banco.*
 class Propiedad inherits Casillero {
 	
 	var property duenio = banco
-	const precioInicial
+	const property precioInicial
 	
 	method pagarA(){ // accionSegunCasillero()?
 	}

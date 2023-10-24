@@ -63,7 +63,7 @@ describe "El Estanciero, Parte 1" {
 		assert.that(corrientes.dueniosDeCampos().contains(tiaTiti))
 		assert.that(corrientes.dueniosDeCampos().contains(munoz))
 	}
-	/* 
+	
 	test "1-b- Se agrega una estancia en Los Pinos" {
 		tiaTiti.cobrar(1000) //lavando guita
 		losPinos.agregarUnaEstancia()
@@ -202,33 +202,32 @@ describe "El Estanciero, Parte 1" {
 		tiaTiti.moverseSobre([elZorzalito])
 		assert.equals(1730, tiaTiti.dinero())
 		assert.equals(elZorzalito, tiaTiti.casilleroActual())
-	} */
-	/*
+	} 
+	
 	test "9- Hacemos que titi juegue 1 turno desde la salida" {
-		unJuego.queJuegue(tiaTiti)
+		juego.queJuegue(tiaTiti)
 		assert.equals(5000, tiaTiti.dinero())
 		assert.equals(elZorzalito, tiaTiti.casilleroActual())
 	}
 	
 	test "9- Hacemos que titi avance sobre 3 casilleros desde la salida" {
-		miTablero.casilleros().add(premioGanadero)
+		tablero.casilleros().add(premioGanadero)
 		//en las siguientes 3 lineas uso la lógica con la que el jugador juega solo para fijar el valor de los dados
 		const unNumero = 3
-		const casilleros = miTablero.casillerosDesdeHasta(tiaTiti.casilleroActual(), unNumero)
+		const casilleros = tablero.casillerosDesdeHasta(tiaTiti.casilleroActual(), unNumero)
 		tiaTiti.moverseSobre(casilleros)
 		assert.equals(2500, tiaTiti.dinero())
 		assert.equals(premioGanadero, tiaTiti.casilleroActual())
 	}
 	 
 	test "9- Hacemos que titi avance sobre 4 casilleros desde la salida, vuelve a caer en la salida" {
-		miTablero.casilleros().add(premioGanadero) 
+		tablero.casilleros().add(premioGanadero) 
 		const unNumero = 4
-		const casilleros = miTablero.casillerosDesdeHasta(tiaTiti.casilleroActual(), unNumero)
+		const casilleros = tablero.casillerosDesdeHasta(tiaTiti.casilleroActual(), unNumero)
 		tiaTiti.moverseSobre(casilleros)
 		assert.equals(5000, tiaTiti.dinero())
 		assert.equals(salida, tiaTiti.casilleroActual())
 	}
-	*/
 	
 	test "9- Ext" {
 		tiaTiti.cobrar(10000)
