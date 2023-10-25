@@ -40,7 +40,6 @@ class Acreedor {
 	
 	method propiedades() = propiedades
 	
-	
 	method campos(){
 		return self.propiedades().filter{unaPropiedad => !(unaPropiedad.sosEmpresa())}
 	}

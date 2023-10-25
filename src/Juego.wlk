@@ -15,4 +15,9 @@ object juego {
 	method queJuegue(unJugador) {
 		unJugador.jugar()
 	}
+	
+	//ext2
+	method hayOtroEmpresarioAdemasDe(unEmpresario){
+		return self.jugadores().any{jugador => jugador.tieneUnaEmpresa()}
+	}
 }

@@ -6,9 +6,6 @@ class Propiedad inherits Casillero {
 	var property duenio = banco
 	const property precioInicial
 	
-	method pagarA(){ // accionSegunCasillero()?
-	}
-	
 	//4
 	method rentaPara(jugadorQueCayo)
 	
@@ -17,4 +14,7 @@ class Propiedad inherits Casillero {
 		duenio.accionDeTitularSobrePropiedad(unJugador, self)
 		super(unJugador)
 	}
+	
+	//ext2
+	method cumpleRequisitosDe(unaEstrategia)
 }

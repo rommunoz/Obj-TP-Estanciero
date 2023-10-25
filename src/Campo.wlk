@@ -9,7 +9,6 @@ class Campo inherits Propiedad {
 	const costoDeEstancia 
 	var cantidadDeEstancias = 0
 	
-	
 	//1b
 	method construirEstancia(){
 		if (!provincia.esMonopolioPara(duenio)) throw noMonopolio
@@ -43,8 +42,13 @@ class Campo inherits Propiedad {
 	}
 	
 	//extension 2
-	method cumpleRequisitosDe(unaEstrategia, unJugador){
-		return unaEstrategia.cumpleRequisitosElCampo(self, unJugador, self.provincia())
+	method hayOtroDuenioEnTuProvinciaAdemasDe(unDuenio){
+		return provincia.hayOtroDuenioAdemasDe(unDuenio, self)
 	}
+	
+	method cumpleRequisitosDe(unaEstrategia){
+		return unaEstrategia.cumpleRequisitosElCampo(self)
+	}
+	
 	//
 }

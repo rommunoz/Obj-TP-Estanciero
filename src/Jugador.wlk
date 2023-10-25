@@ -14,7 +14,7 @@ class Jugador inherits Acreedor {
 	//const susDados = new Dados()
 	
 	var property casilleroActual = salida //punto 8
-	var property situacionLegal = libre //ese nombre??) punto 9, (libre juega normal) o preso
+	var property situacionLegal = new Libre() //ese nombre??) extension (libre juega normal) o preso
 	var property estrategiaDeCompra = standard
 
 	//1b
@@ -28,8 +28,8 @@ class Jugador inherits Acreedor {
 //		return susDados.tirar(self)
 //	}
 	
-	//3
-	method tirarDados(){
+	//3 
+	method tirarDados(){ //solo se obtiene el numero
 		return self.tirarDado() + self.tirarDado()
 	}
 	
@@ -38,12 +38,8 @@ class Jugador inherits Acreedor {
 	}
 	//TODO: analizar si sería mejor tener 1 solo tirarDados que dependa de la situacion, 
 		//y cada situacion tendra un DadosParaPreso o DadosParaLibre.
-			//ahora bien, si me agregan otro comportamiento mas de tiro, creo que debo hacer esto si o si
-	
-	//4
-	method volverATirar(){ //solo se obtiene el numero
-		return self.tirarDado() + self.tirarDado()
-	}
+			//ahora bien, creo que solo debo hacer esto si me agregan otro comportamiento mas de tiro
+
 	
 	//5
 //	override method pagarA(unMonto, unAcreedor){
@@ -78,6 +74,7 @@ class Jugador inherits Acreedor {
 	method comprar(unaPropiedad){ //falta contemplar la compra a otro jugador
 		self.pagarA(banco, unaPropiedad.precioInicial())
 		self.agregarPropiedad(unaPropiedad)
+		banco.eliminarPropiedad(unaPropiedad)
 	}
 	
 	method agregarPropiedad(unaPropiedad){
@@ -96,35 +93,42 @@ class Jugador inherits Acreedor {
 	}
 	
 	//9
-	method jugar(){
-		const unNumero = self.tirarDados() //TODO: consigo el nro () y cambio (o no) mi situacion
-		const casilleros = tablero.casillerosDesdeHasta(self.casilleroActual(), unNumero)
-		self.moverseSobre(casilleros) //TODO: acciono segun situacion, ya tengo nro
-	}
+//	method jugar(){
+//		const unNumero = self.tirarDados() //consigo el nro () y cambio (o no) mi situacion
+//		const casilleros = tablero.casillerosDesdeHasta(self.casilleroActual(), unNumero)
+//		self.moverseSobre(casilleros) // acciono segun situacion, ya tengo nro
+//	}
 
 //	//punto 9 (extension 1)
-//	method jugar(unTablero){
-//		situacionLegal.jugar(unTablero, self) //TODO: acciono segun situacion
-//	}
-	
-	
-	//
+	method jugar(){
+		const dado1 = self.tirarDado()		
+		const dado2 = self.tirarDado()
+		situacionLegal.evaluarSituacion(self, dado1, dado2) // evalúa si cambiar de situacion
+		situacionLegal.jugarHabiendoTirado(self, dado1 + dado2) //TODO: acciono segun mi situacion
+	}
+
 	method marchePreso(){
-		situacionLegal = new Preso()
+		self.caerEn(prision)
+		self.situacionLegal(new Preso())
 	}
 	
 	method salirDePrision(){
-		situacionLegal = libre
+		self.situacionLegal(new Libre())
 	}
-	
-	method cumplioCondena(){
-		return situacionLegal.cumplioLaCondena()
-	}
+
 	//- fin punto9 ext 1
 	
-	//extension 2
+	//ext2
+	method comprarSi(unaPropiedad){
+		if(self.quiereComprar(unaPropiedad)) self.comprar(unaPropiedad)
+	}
+	
 	method quiereComprar(unaPropiedad){
-		return estrategiaDeCompra.quiereComprar(unaPropiedad)
+		return estrategiaDeCompra.esRentable(unaPropiedad, self)
+	}
+	
+	method tieneAlMenosUnaEmpresa(){
+		return self.cantidadDeEmpresas() > 0
 	}
 	
 	method tieneUnCampoEn(unaProvincia){

@@ -1,0 +1,81 @@
+import Jugador.*
+import Provincia.*
+import Propiedad.*
+import Campo.*
+import Empresa.*
+import Banco.*
+import Excepciones.*
+import Casillero.*
+import CasillerosEspeciales.*
+import Empresa.*
+import Tablero.*
+import Juego.*
+import SituacionesDelJugador.*
+
+describe "El Estanciero, Parte 1" {
+	var coloniaCarolina
+	var elZorzalito
+	var lagunaPucuSur
+	var coloniaPorvenir
+	var losPinos	
+	var corrientes
+	var entreRios
+	var tiaTiti
+	var munoz
+	var presoMunoz
+	var libreMunoz
+	
+	method initialize(){
+		
+		tiaTiti = new Jugador()
+		munoz 	= new Jugador() 
+		
+		corrientes = new Provincia()
+		entreRios  = new Provincia()
+		
+		coloniaCarolina = new Campo(provincia = corrientes, duenio = tiaTiti, costoDeEstancia = 600, valorDeRentaFijo = 200, precioInicial = 6000)
+		elZorzalito 	= new Campo(provincia = corrientes, duenio = munoz,   costoDeEstancia = 900, valorDeRentaFijo = 270, precioInicial = 7500)
+		lagunaPucuSur 	= new Campo(provincia = corrientes, costoDeEstancia = 1100, valorDeRentaFijo = 150, precioInicial = 5000) //duenio banco
+		coloniaPorvenir = new Campo(provincia = corrientes, costoDeEstancia = 750, valorDeRentaFijo = 400, precioInicial = 9000) //duenio banco
+		losPinos 		= new Campo(provincia = entreRios, duenio = tiaTiti, costoDeEstancia = 500, valorDeRentaFijo = 500, precioInicial = 12000)
+		
+		presoMunoz = new Preso()
+		libreMunoz = new Libre()
+		
+		tiaTiti.agregarPropiedad(coloniaCarolina)
+		munoz.agregarPropiedad(elZorzalito)
+		
+		corrientes.agregarCampo(coloniaCarolina)
+		corrientes.agregarCampo(elZorzalito)
+		corrientes.agregarCampo(lagunaPucuSur)
+		corrientes.agregarCampo(coloniaPorvenir)
+//		coloniaPorvenir = new Campo(costoDeConstruccionDeEstancia = 15000, provincia = corrientes, 
+//				valorDeRentaFijo = 2250, precioDeCompraInicial = 50000) //duenio banco	
+		tablero.casilleros().addAll([coloniaCarolina, elZorzalito, lagunaPucuSur, premioGanadero, coloniaPorvenir, losPinos])
+		juego.jugadores().addAll([tiaTiti, munoz])
+	}
+	
+	test "1- Munoz saca dobles dos veces y va preso, sale a los tres turnos perdidos o antes" {
+		munoz.cobrar(10000) //para evitar excepciones de saldo insuficiente
+		//munoz.jugar()
+		munoz.situacionLegal().evaluarSituacion(munoz, 2, 2)//1er tno
+		munoz.situacionLegal().jugarHabiendoTirado(munoz, 2 + 2)
+		munoz.situacionLegal().evaluarSituacion(munoz, 2, 2)//2do tno
+		munoz.situacionLegal().jugarHabiendoTirado(munoz, 2 + 2)
+		assert.equals(presoMunoz.kindName(), munoz.situacionLegal().kindName())
+		3.times{turno => munoz.jugar()}	//puede salir antes	
+		assert.equals(presoMunoz.kindName(), munoz.situacionLegal().kindName())
+		munoz.jugar()					//cumplio 3 turnos
+		assert.equals(libreMunoz.kindName(), munoz.situacionLegal().kindName())
+	}
+	
+	test "2- Munoz saca dobles 1 vez y la segunda no, no va preso" {
+		munoz.cobrar(10000) //para evitar excepciones de saldo insuficiente
+		//munoz.jugar()
+		munoz.situacionLegal().evaluarSituacion(munoz, 2, 2)//1er tno
+		munoz.situacionLegal().jugarHabiendoTirado(munoz, 2 + 2)
+		munoz.situacionLegal().evaluarSituacion(munoz, 2, 3)//2do tno
+		munoz.situacionLegal().jugarHabiendoTirado(munoz, 2 + 3)
+		assert.equals(libreMunoz.kindName(), munoz.situacionLegal().kindName())
+	}
+}

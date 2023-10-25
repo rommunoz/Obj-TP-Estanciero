@@ -12,13 +12,7 @@ object banco inherits Acreedor (propiedades = #{empresa1, empresa2, empresa3}) {
 	
 	//7 algo adelantado
 	override method accionDeTitularSobrePropiedad(jugadorQueCayo, miPropiedad){
-		//if(jugadorQueCayo.quiereComprar(miPropiedad))
-			self.vender(miPropiedad, jugadorQueCayo)
-	}
-	
-	method vender(unaPropiedad, unJugador){
-		unJugador.comprar(unaPropiedad)
-		self.eliminarPropiedad(unaPropiedad)
+		jugadorQueCayo.comprarSi(miPropiedad)
 	}
 	
 	method eliminarPropiedad(unaPropiedad){

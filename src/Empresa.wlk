@@ -7,7 +7,7 @@ class Empresa inherits Propiedad {
 	
 	//4
 	override method rentaPara(jugadorQueCayo){
-		const numero = jugadorQueCayo.volverATirar()
+		const numero = jugadorQueCayo.tirarDados()
 		return numero * 30000 * duenio.cantidadDeEmpresas()
 	}
 }

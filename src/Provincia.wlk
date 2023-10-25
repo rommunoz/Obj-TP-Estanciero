@@ -1,13 +1,9 @@
 import Campo.*
 import Jugador.*
+import Banco.*
 
 class Provincia {
 	const campos = new Set()
-	
-	//extension 2
-	method todosLosCamposEstanSinDuenio(){
-		return self.esMonopolioPara(banco)
-	}
 	
 	//1a 
 	method dueniosDeCamposV2(){ //alternativa: copiarlos y agregarlos a un set
@@ -38,5 +34,17 @@ class Provincia {
 	method esConstruccionPareja(nroDeEstanciasDeUnCampo){
 		return campos.all{unCampo => unCampo.tieneMenorOIgualEstanciasQue(nroDeEstanciasDeUnCampo)}
 	}
+	
+	//ext 2
+	method todosLosCamposEstanSinDuenio(){
+		return self.esMonopolioPara(banco)
+	}
+	
+	method hayOtroDuenioAdemasDe(unDuenio){
+		return self.dueniosConRepetidos().any{duenio => not (duenio === unDuenio or duenio === banco)}
+	}
+	
+	
+	
 	
 }
